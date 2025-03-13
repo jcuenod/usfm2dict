@@ -1,6 +1,10 @@
-# USFM2Dict
+# Usfm2Dict
 
 A Python package for converting USFM (Unified Standard Format Markers) files to a dictionary format.
+
+## Credit
+
+This package was ripped out of https://github.com/sillsdev/machine.py (`sil-machine`) so that it could function as more of a discreet dependency. `machine.py` was developed by the [SIL International](https://www.sil.org/) team and is MIT licensed. Thank you for your work!
 
 ## Installation
 
