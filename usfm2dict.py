@@ -9,13 +9,14 @@ It's recommended to use the package directly:
 Usage: python usfm2dict.py <usfm_file_or_glob>
 """
 
-import sys
-import os
-
-# Add the src directory to the path so we can import the package
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-
-from usfm2dict.cli import main
-
+# Rename this file to avoid package name conflicts
 if __name__ == "__main__":
+    import sys
+    import os
+    # Ensure src directory is in path
+    src_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src')
+    if src_path not in sys.path:
+        sys.path.insert(0, src_path)
+    
+    from usfm2dict.cli import main
     main()
