@@ -9,6 +9,7 @@ from .models import UsfmTag, UsfmStyleType, UsfmTextProperties
 
 class UsfmStylesheet:
     """Stylesheet for USFM parsing."""
+
     def __init__(self) -> None:
         self._tags: Dict[str, UsfmTag] = {}
         self._create_default_tags()

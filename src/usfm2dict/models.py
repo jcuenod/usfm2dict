@@ -11,6 +11,7 @@ from .canon import book_id_to_number, book_number_to_id
 
 class UsfmTextType(Flag):
     """Types of text in USFM."""
+
     NOT_SPECIFIED = 0
     TITLE = auto()
     SECTION = auto()
@@ -23,6 +24,7 @@ class UsfmTextType(Flag):
 
 class UsfmJustification(Enum):
     """Text justification options in USFM."""
+
     LEFT = auto()
     CENTER = auto()
     RIGHT = auto()
@@ -31,6 +33,7 @@ class UsfmJustification(Enum):
 
 class UsfmStyleType(Enum):
     """Types of styles in USFM."""
+
     UNKNOWN = auto()
     CHARACTER = auto()
     NOTE = auto()
@@ -42,6 +45,7 @@ class UsfmStyleType(Enum):
 
 class UsfmTextProperties(Flag):
     """Properties of text in USFM."""
+
     NONE = 0
     VERSE = auto()
     CHAPTER = auto()
@@ -66,12 +70,14 @@ class UsfmTextProperties(Flag):
 @dataclass
 class UsfmStyleAttribute:
     """Attribute for a USFM style."""
+
     name: str
     is_required: bool
 
 
 class UsfmTag:
     """Represents a USFM marker tag and its properties."""
+
     def __init__(self, marker: str) -> None:
         self.marker = marker
         self.bold: bool = False
@@ -118,6 +124,7 @@ class UsfmTag:
 
 class UsfmTokenType(Enum):
     """Types of tokens in USFM."""
+
     BOOK = auto()
     CHAPTER = auto()
     VERSE = auto()
@@ -135,6 +142,7 @@ class UsfmTokenType(Enum):
 @dataclass
 class UsfmAttribute:
     """Attribute for a USFM token."""
+
     name: str
     value: str
     offset: int = 0
@@ -146,6 +154,7 @@ class UsfmAttribute:
 @dataclass
 class UsfmToken:
     """Token in USFM text."""
+
     type: UsfmTokenType
     marker: Optional[str] = None
     text: Optional[str] = None
@@ -157,7 +166,11 @@ class UsfmToken:
     @property
     def nestless_marker(self) -> Optional[str]:
         """Get the marker without nesting indicator."""
-        return self.marker[1:] if self.marker is not None and self.marker[0] == "+" else self.marker
+        return (
+            self.marker[1:]
+            if self.marker is not None and self.marker[0] == "+"
+            else self.marker
+        )
 
     def __post_init__(self) -> None:
         self.attributes: Optional[Sequence[UsfmAttribute]] = None
@@ -176,6 +189,7 @@ class UsfmToken:
 
 class Versification:
     """Versification system for Bible texts."""
+
     def __init__(self, name: str = "English") -> None:
         self._name = name
         self.book_list = []
@@ -185,6 +199,7 @@ class Versification:
 
 class VerseRef:
     """Reference to a specific verse in the Bible."""
+
     def __init__(
         self,
         book: Union[str, int] = 0,
@@ -247,6 +262,7 @@ class VerseRef:
 
 class UsfmElementType(Enum):
     """Types of elements in USFM structure."""
+
     BOOK = auto()
     PARA = auto()
     CHAR = auto()
@@ -260,6 +276,7 @@ class UsfmElementType(Enum):
 @dataclass
 class UsfmParserElement:
     """Element in the USFM parser state."""
+
     type: UsfmElementType
     marker: Optional[str]
     attributes: Optional[Sequence[UsfmAttribute]] = None

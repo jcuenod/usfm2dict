@@ -19,12 +19,14 @@ class TestUsfm2Dict(unittest.TestCase):
 """
         parser = UsfmParser()
         result = parser.parse(usfm_text)
-        
+
         self.assertEqual(len(result), 2)
-        self.assertEqual(result["GEN 1:1"], "In the beginning God created the heavens and the earth.")
         self.assertEqual(
-            result["GEN 1:2"], 
-            "Now the earth was formless and empty, darkness was over the surface of the deep, and the Spirit of God was hovering over the waters."
+            result["GEN 1:1"], "In the beginning God created the heavens and the earth."
+        )
+        self.assertEqual(
+            result["GEN 1:2"],
+            "Now the earth was formless and empty, darkness was over the surface of the deep, and the Spirit of God was hovering over the waters.",
         )
 
 
