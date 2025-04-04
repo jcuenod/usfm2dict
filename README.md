@@ -39,16 +39,16 @@ usfm2dict path/to/file.usfm --pretty
 from usfm2dict import parse_usfm_file, UsfmParser
 
 # Parse a file
-verses = parse_usfm_file("path/to/file.usfm")
+parsed_usfm = parse_usfm_file("path/to/file.usfm")
 
 # Or use the parser directly
 parser = UsfmParser()
 with open("path/to/file.usfm", "r", encoding="utf-8") as f:
     content = f.read()
-verses = parser.parse(content)
+parsed_usfm = parser.parse(content)
 
 # Result is a dictionary with verse references as keys
-print(verses["GEN 1:1"])  # "In the beginning God created the heavens and the earth."
+print(parsed_usfm["verses"]["GEN 1:1"])  # "In the beginning God created the heavens and the earth."
 ```
 
 ## License

@@ -171,6 +171,8 @@ class UsfmParser:
         tokens = self._tokenizer.tokenize(text)
         state = UsfmParserState(self._stylesheet, self._versification, tokens)
 
+        prolegomena = ""
+
         verses: Dict[str, str] = {}
         current_book = ""
         current_chapter = ""
@@ -236,6 +238,13 @@ class UsfmParser:
                             current_verse_text += token.text if token.text else ""
                     else:
                         current_verse_text += token.text if token.text else ""
+                else:
+                    # If no verse reference, treat as prolegomena (current_book is never unset)
+                    if current_book and token.text:
+                        # Ignore the book name if it matches the current book
+                        if token.text.strip() == current_book:
+                            continue
+                    prolegomena += token.text if token.text else ""
 
         # Add the last verse
         if current_book and current_chapter and current_verse:
@@ -248,7 +257,11 @@ class UsfmParser:
         for key in verses:
             verses[key] = re.sub(r"\s+", " ", verses[key]).strip()
 
-        return verses
+        return {
+            "book": current_book,
+            "verses": verses,
+            "prolegomena": prolegomena.strip(),
+        }
 
 
 def parse_usfm_file(file_path: str) -> Dict[str, str]:
