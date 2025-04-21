@@ -177,6 +177,18 @@ class UsfmParser:
         current_verse = ""
         current_verse_text = ""
 
+        def maybe_save():
+            """Save the current verse if it exists."""
+            nonlocal current_book, current_chapter, current_verse, current_verse_text
+            if current_book and current_chapter and current_verse:
+                verse_ref = f"{current_book} {current_chapter}:{current_verse}"
+                trimmed_verse_text = current_verse_text.strip()
+                if len(trimmed_verse_text) > 0:
+                    verses[verse_ref] = trimmed_verse_text
+
+                current_verse = ""
+                current_verse_text = ""
+
         for i, token in enumerate(tokens):
             state.index = i
 
@@ -184,20 +196,16 @@ class UsfmParser:
                 current_book = token.data
 
             elif token.type == UsfmTokenType.CHAPTER and token.data:
+                # Save previous verse if exists
+                maybe_save()
+
                 current_chapter = token.data
-                current_verse = ""
-                current_verse_text = ""
 
             elif token.type == UsfmTokenType.VERSE and token.data:
                 # Save previous verse if exists
-                if current_book and current_chapter and current_verse:
-                    verse_ref = f"{current_book} {current_chapter}:{current_verse}"
-                    trimmed_verse_text = current_verse_text.strip()
-                    if len(trimmed_verse_text) > 0:
-                        verses[verse_ref] = current_verse_text.strip()
+                maybe_save()
 
                 current_verse = token.data
-                current_verse_text = ""
 
                 # Update verse reference in state
                 state.verse_ref = VerseRef(current_book, current_chapter, current_verse)
